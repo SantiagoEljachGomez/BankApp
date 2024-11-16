@@ -106,6 +106,12 @@ public class BankFrame extends javax.swing.JFrame {
         jLabel5.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel5.setText("Age");
 
+        IdTextField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                IdTextFieldActionPerformed(evt);
+            }
+        });
+
         RegisterButton.setFont(new java.awt.Font("Segoe UI", 3, 12)); // NOI18N
         RegisterButton.setText("Register");
         RegisterButton.addActionListener(new java.awt.event.ActionListener() {
@@ -534,7 +540,7 @@ public class BankFrame extends javax.swing.JFrame {
             String lastname = LastnameTextField.getText();
             int age = Integer.parseInt(AgeTextField.getText());
             
-            this.users.add(new User(id, firstname, lastname, age));
+            this.users.add(new User(id, firstname, lastname, age)); //PREGUNTAR PROFESOR SI AÑADIR EN VIEW O EN CONTROLLER32.
             
             IdTextField.setText("");
             FirstnameTextField.setText("");
@@ -701,6 +707,10 @@ public class BankFrame extends javax.swing.JFrame {
     private void TypeComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TypeComboBoxActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_TypeComboBoxActionPerformed
+
+    private void IdTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_IdTextFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_IdTextFieldActionPerformed
 
    
 
