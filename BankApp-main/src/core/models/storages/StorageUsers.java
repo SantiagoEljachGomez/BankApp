@@ -6,7 +6,6 @@ package core.models.storages;
 
 import bank.User;
 import java.util.ArrayList;
-import java.util.Collections;
 
 /**
  *
@@ -38,6 +37,23 @@ public class StorageUsers {
         }
         this.users.add(user);
         return true;
+    }
+
+    public boolean getUsers(int id) {
+        for (User users : this.users) {
+            if (users.getId() == id) {
+                return true;
+            }
+        }
+        return false;
+    }
+     public User getUser(int id) {
+        for (User users : this.users) {
+            if (users.getId() == id) {
+                return users;
+            }
+        }
+        return null;
     }
 
     public ArrayList<User> getUsers() { //usar despues para mostrar en el view de ListUsers
