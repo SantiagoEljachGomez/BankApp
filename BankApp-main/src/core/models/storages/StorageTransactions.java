@@ -21,7 +21,7 @@ public class StorageTransactions {
     //lista de transactions para mostrar en el view, con diferentes atributos sin el tipo Accoint sino String
 
     public StorageTransactions() {
-        this.transactions = transactions;
+        this.transactions = new ArrayList<>();
     }
 
     public static StorageTransactions getInstance() {

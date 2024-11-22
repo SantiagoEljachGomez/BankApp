@@ -4,7 +4,10 @@
  */
 package main;
 
+import bank.User;
+import core.models.storages.StorageUsers;
 import core.views.BankFrame;
+import java.util.ArrayList;
 
 /**
  *
@@ -46,5 +49,9 @@ public class Main {
                 new BankFrame().setVisible(true);
             }
         });
+//        StorageUsers storageu = StorageUsers.getInstance();
+//        ArrayList<User> listau = storageu.getUsers();
+//        System.out.println("lista de users"+ listau);
+//        
     }
 }

@@ -6,13 +6,11 @@ package core.views;
 
 import bank.Account;
 import bank.Transaction;
-import bank.TransactionType;
 import bank.User;
 import core.controllers.BankController;
 import core.controllers.utils.Response;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Random;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -544,7 +542,7 @@ public class BankFrame extends javax.swing.JFrame {
 
         // this.users.add(new User(id, firstname, lastname, age)); //PREGUNTAR PROFESOR SI AÑADIR EN VIEW O EN CONTROLLER32.
         Response response = BankController.register(id, firstname, lastname, age);
-        
+
         if (response.getStatus() >= 500) {
             JOptionPane.showMessageDialog(null, response.getMessage(), "Error " + response.getStatus(), JOptionPane.ERROR_MESSAGE);
         } else if (response.getStatus() >= 400) {
@@ -556,7 +554,7 @@ public class BankFrame extends javax.swing.JFrame {
             FirstnameTextField.setText("");
             LastnameTextField.setText("");
             AgeTextField.setText("");
-
+        }
     }//GEN-LAST:event_RegisterButtonActionPerformed
 
     private void CreateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CreateButtonActionPerformed
@@ -565,94 +563,83 @@ public class BankFrame extends javax.swing.JFrame {
         String userId = UserIdTextField.getText();
         String initialBalance = InitialBalanceTextField.getText();
 
-        UserIdTextField.setText("");
-        InitialBalanceTextField.setText("");
+        Response response = BankController.create(userId, initialBalance);
+        if (response.getStatus() >= 500) {
+            JOptionPane.showMessageDialog(null, response.getMessage(), "Error " + response.getStatus(), JOptionPane.ERROR_MESSAGE);
+        } else if (response.getStatus() >= 400) {
+            JOptionPane.showMessageDialog(null, response.getMessage(), "Error " + response.getStatus(), JOptionPane.WARNING_MESSAGE);
+        } else {
+            JOptionPane.showMessageDialog(null, response.getMessage(), "Response Message", JOptionPane.INFORMATION_MESSAGE);
+            UserIdTextField.setText("");
+            InitialBalanceTextField.setText("");
+        }
+
 
     }//GEN-LAST:event_CreateButtonActionPerformed
 
     private void ExecuteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ExecuteButtonActionPerformed
         // TODO add your handling code here:
-        try {
-            String type = TypeComboBox.getItemAt(TypeComboBox.getSelectedIndex());
-            switch (type) {
-                case "Deposit": {
-                    String destinationAccountId = DestinationAccountTextField.getText();
-                    double amount = Double.parseDouble(AmountTextField.getText());
 
-                    Account destinationAccount = null;
-                    for (Account account : this.accounts) {
-                        if (account.getId().equals(destinationAccountId)) {
-                            destinationAccount = account;
-                        }
-                    }
-                    if (destinationAccount != null) {
-                        destinationAccount.deposit(amount);
+        String type = TypeComboBox.getItemAt(TypeComboBox.getSelectedIndex());
+        String destinationAccountId = DestinationAccountTextField.getText();
+        String sourceAccountId = SourceAccountTextField.getText();
+        String amount = AmountTextField.getText();
 
-                        this.transactions.add(new Transaction(TransactionType.DEPOSIT, null, destinationAccount, amount));
+        switch (type) {
+            case "Deposit": {
+                Response response = BankController.depositTransaction(destinationAccountId, amount);
 
-                        SourceAccountTextField.setText("");
-                        DestinationAccountTextField.setText("");
-                        AmountTextField.setText("");
-                    }
-                    break;
-                }
-                case "Withdraw": {
-                    String sourceAccountId = SourceAccountTextField.getText();
-                    double amount = Double.parseDouble(AmountTextField.getText());
-
-                    Account sourceAccount = null;
-                    for (Account account : this.accounts) {
-                        if (account.getId().equals(sourceAccountId)) {
-                            sourceAccount = account;
-                        }
-                    }
-                    if (sourceAccount != null && sourceAccount.withdraw(amount)) {
-                        this.transactions.add(new Transaction(TransactionType.WITHDRAW, sourceAccount, null, amount));
-
-                        SourceAccountTextField.setText("");
-                        DestinationAccountTextField.setText("");
-                        AmountTextField.setText("");
-                    }
-                    break;
-                }
-                case "Transfer": {
-                    String sourceAccountId = SourceAccountTextField.getText();
-                    String destinationAccountId = DestinationAccountTextField.getText();
-                    double amount = Double.parseDouble(AmountTextField.getText());
-
-                    Account sourceAccount = null;
-                    Account destinationAccount = null;
-                    for (Account account : this.accounts) {
-                        if (account.getId().equals(sourceAccountId)) {
-                            sourceAccount = account;
-                        }
-                    }
-                    for (Account account : this.accounts) {
-                        if (account.getId().equals(destinationAccountId)) {
-                            destinationAccount = account;
-                        }
-                    }
-                    if (sourceAccount != null && destinationAccount != null && sourceAccount.withdraw(amount)) {
-                        destinationAccount.deposit(amount);
-
-                        this.transactions.add(new Transaction(TransactionType.TRANSFER, sourceAccount, destinationAccount, amount));
-
-                        SourceAccountTextField.setText("");
-                        DestinationAccountTextField.setText("");
-                        AmountTextField.setText("");
-                    }
-                    break;
-                }
-                default: {
+                if (response.getStatus() >= 500) {
+                    JOptionPane.showMessageDialog(null, response.getMessage(), "Error " + response.getStatus(), JOptionPane.ERROR_MESSAGE);
+                } else if (response.getStatus() >= 400) {
+                    JOptionPane.showMessageDialog(null, response.getMessage(), "Error " + response.getStatus(), JOptionPane.WARNING_MESSAGE);
+                } else {
+                    JOptionPane.showMessageDialog(null, response.getMessage(), "Response Message", JOptionPane.INFORMATION_MESSAGE);
                     SourceAccountTextField.setText("");
                     DestinationAccountTextField.setText("");
                     AmountTextField.setText("");
-                    break;
                 }
+                break;
             }
-        } catch (Exception ex) {
-            JOptionPane.showMessageDialog(null, "Error", "Error", JOptionPane.ERROR_MESSAGE);
+            case "Withdraw": {
+                Response response = BankController.withdrawTransaction(sourceAccountId, amount);
+
+                if (response.getStatus() >= 500) {
+                    JOptionPane.showMessageDialog(null, response.getMessage(), "Error " + response.getStatus(), JOptionPane.ERROR_MESSAGE);
+                } else if (response.getStatus() >= 400) {
+                    JOptionPane.showMessageDialog(null, response.getMessage(), "Error " + response.getStatus(), JOptionPane.WARNING_MESSAGE);
+                } else {
+                    JOptionPane.showMessageDialog(null, response.getMessage(), "Response Message", JOptionPane.INFORMATION_MESSAGE);
+                    SourceAccountTextField.setText("");
+                    DestinationAccountTextField.setText("");
+                    AmountTextField.setText("");
+                }
+                break;
+            }
+            case "Transfer": {
+                Response response = BankController.transferTransaction(sourceAccountId, destinationAccountId, amount);
+
+                if (response.getStatus() >= 500) {
+                    JOptionPane.showMessageDialog(null, response.getMessage(), "Error " + response.getStatus(), JOptionPane.ERROR_MESSAGE);
+                } else if (response.getStatus() >= 400) {
+                    JOptionPane.showMessageDialog(null, response.getMessage(), "Error " + response.getStatus(), JOptionPane.WARNING_MESSAGE);
+                } else {
+                    JOptionPane.showMessageDialog(null, response.getMessage(), "Response Message", JOptionPane.INFORMATION_MESSAGE);
+                    SourceAccountTextField.setText("");
+                    DestinationAccountTextField.setText("");
+                    AmountTextField.setText("");
+                }
+                break;
+            }
+            default: {
+                SourceAccountTextField.setText("");
+                DestinationAccountTextField.setText("");
+                AmountTextField.setText("");
+                break;
+            }
         }
+
+
     }//GEN-LAST:event_ExecuteButtonActionPerformed
 
     private void RefreshUsersButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RefreshUsersButtonActionPerformed
@@ -661,10 +648,12 @@ public class BankFrame extends javax.swing.JFrame {
         model.setRowCount(0);
 
         this.users.sort((obj1, obj2) -> (obj1.getId() - obj2.getId()));
-        
+
         for (User user : this.users) {
             model.addRow(new Object[]{user.getId(), user.getFirstname() + " " + user.getLastname(), user.getAge(), user.getNumAccounts()});
         }
+        
+        
     }//GEN-LAST:event_RefreshUsersButtonActionPerformed
 
     private void RefreshAccountsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RefreshAccountsButtonActionPerformed

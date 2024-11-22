@@ -20,7 +20,7 @@ public class StorageAccounts {
     private ArrayList<Account> accounts;
 
     public StorageAccounts() {
-        this.accounts = accounts;
+        this.accounts = new ArrayList<>();
         
     }
 

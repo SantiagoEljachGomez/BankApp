@@ -19,7 +19,7 @@ public class StorageUsers {
     private ArrayList<User> users;
 
     public StorageUsers() {
-        this.users = users;
+        this.users = new ArrayList<>();
     }
 
     public static StorageUsers getInstance() {
@@ -30,6 +30,7 @@ public class StorageUsers {
     }
 
     public boolean addUsers(User user) {
+        
         for (User u : this.users) {
             if (u.getId() == user.getId()) {
                 return false;

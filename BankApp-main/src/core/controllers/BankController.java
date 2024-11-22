@@ -44,13 +44,13 @@ public class BankController {
                 return new Response("Entrance must be numeric", Status.BAD_REQUEST);
             }
             //validar que el nombre y apellido no sean vacios
-            if (firstname.equals("") && lastname.equals("")) {
-                return new Response("Firstname and last name must be not empty", Status.BAD_REQUEST);
+            if (firstname.equals("")) {
+                return new Response("Firstname must be not empty", Status.BAD_REQUEST);
             }
 
-//        quitar    if (lastname.equals("")) {
-//                return new Response("Lastname must be not empty", Status.BAD_REQUEST);
-//            }
+            if (lastname.equals("")) {
+                return new Response("Lastname must be not empty", Status.BAD_REQUEST);
+            }
             try {
                 ageInt = Integer.parseInt(ageUser);
                 if (ageInt < 18) {
@@ -67,6 +67,7 @@ public class BankController {
             }
             return new Response("User registered successfully", Status.CREATED);
         } catch (Exception ex) {
+            
             return new Response("Unexpected error", Status.INTERNAL_SERVER_ERROR);
         }
 
@@ -252,10 +253,10 @@ public class BankController {
             sourceAccount.setBalance(sourcebalance - amountDouble);
 
             return new Response("Transaction approved", Status.CREATED);
-            
+
         } catch (Exception ex) {
             return new Response("Unexpected error", Status.INTERNAL_SERVER_ERROR);
         }
     }
-    
+
 }
