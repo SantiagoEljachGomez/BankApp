@@ -544,7 +544,7 @@ public class BankFrame extends javax.swing.JFrame {
 
         // this.users.add(new User(id, firstname, lastname, age)); //PREGUNTAR PROFESOR SI AÑADIR EN VIEW O EN CONTROLLER32.
         Response response = BankController.register(id, firstname, lastname, age);
-
+        
         if (response.getStatus() >= 500) {
             JOptionPane.showMessageDialog(null, response.getMessage(), "Error " + response.getStatus(), JOptionPane.ERROR_MESSAGE);
         } else if (response.getStatus() >= 400) {
@@ -661,7 +661,7 @@ public class BankFrame extends javax.swing.JFrame {
         model.setRowCount(0);
 
         this.users.sort((obj1, obj2) -> (obj1.getId() - obj2.getId()));
-
+        
         for (User user : this.users) {
             model.addRow(new Object[]{user.getId(), user.getFirstname() + " " + user.getLastname(), user.getAge(), user.getNumAccounts()});
         }

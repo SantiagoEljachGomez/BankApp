@@ -21,6 +21,7 @@ public class StorageAccounts {
 
     public StorageAccounts() {
         this.accounts = accounts;
+        
     }
 
     public static StorageAccounts getInstance() {
@@ -40,7 +41,7 @@ public class StorageAccounts {
         return true;
     }
 
-     public String generateAccountId() {
+    public String generateAccountId() {
         Random random = new Random();
 
         int random1 = random.nextInt(1000);
@@ -50,6 +51,23 @@ public class StorageAccounts {
         String accountId = String.format("%03d", random1) + "-" + String.format("%06d", random2) + "-" + String.format("%02d", random3);
         return accountId;
     }
-     
-   
+
+    public boolean getAccounts(String id) {
+        for (Account a : this.accounts) {
+            if (a.getId() == id) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public Account getAccount(String id) {
+        for (Account a : this.accounts) {
+            if (a.getId() == id) {
+                return a;
+            }
+        }
+        return null;
+    }
+
 }

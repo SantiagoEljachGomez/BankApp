@@ -4,6 +4,8 @@
  */
 package bank;
 
+import core.models.storages.StorageAccounts;
+
 /**
  *
  * @author edangulo
@@ -23,6 +25,9 @@ public class Transaction {
         this.amount = amount;
     }
 
+
+
+    
     public TransactionType getType() {
         return type;
     }
