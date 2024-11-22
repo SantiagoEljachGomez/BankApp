@@ -13,6 +13,7 @@ import core.controllers.utils.Status;
 import core.models.storages.StorageAccounts;
 import core.models.storages.StorageTransactions;
 import core.models.storages.StorageUsers;
+import java.util.ArrayList;
 
 /**
  *
@@ -67,7 +68,7 @@ public class BankController {
             }
             return new Response("User registered successfully", Status.CREATED);
         } catch (Exception ex) {
-            
+
             return new Response("Unexpected error", Status.INTERNAL_SERVER_ERROR);
         }
 
@@ -253,6 +254,44 @@ public class BankController {
             sourceAccount.setBalance(sourcebalance - amountDouble);
 
             return new Response("Transaction approved", Status.CREATED);
+
+        } catch (Exception ex) {
+            return new Response("Unexpected error", Status.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    public static Response refreshUsers() {
+        try {
+            StorageUsers storageUsers = StorageUsers.getInstance();
+            ArrayList<User> usersOfStorage = storageUsers.getUsers();
+
+            return new Response(" ", Status.CREATED, usersOfStorage);
+
+        } catch (Exception ex) {
+            return new Response("Unexpected error", Status.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    public static Response refreshAccounts() {
+        try {
+
+            StorageAccounts storageAccounts = StorageAccounts.getInstance();
+            ArrayList<Account> accountsOfStorage = storageAccounts.getAccounts();
+
+            return new Response(" ", Status.CREATED, accountsOfStorage);
+
+        } catch (Exception ex) {
+            return new Response("Unexpected error", Status.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    public static Response refreshTransactions() {
+        try {
+
+            StorageTransactions storageTransactions = StorageTransactions.getInstance();
+            ArrayList<Transaction> transactionsOfStorage = storageTransactions.getTransactions();
+
+            return new Response(" ", Status.CREATED, transactionsOfStorage);
 
         } catch (Exception ex) {
             return new Response("Unexpected error", Status.INTERNAL_SERVER_ERROR);

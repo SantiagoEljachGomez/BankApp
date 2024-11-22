@@ -9,9 +9,7 @@ import bank.Transaction;
 import bank.User;
 import core.controllers.BankController;
 import core.controllers.utils.Response;
-import core.models.storages.StorageAccounts;
 import core.models.storages.StorageTransactions;
-import core.models.storages.StorageUsers;
 import java.util.ArrayList;
 import java.util.Collections;
 import javax.swing.JOptionPane;
@@ -588,50 +586,21 @@ public class BankFrame extends javax.swing.JFrame {
         String sourceAccountId = SourceAccountTextField.getText();
         String amount = AmountTextField.getText();
 
+        Response response = null;
         switch (type) {
             case "Deposit": {
-                Response response = BankController.depositTransaction(destinationAccountId, amount);
+                response = BankController.depositTransaction(destinationAccountId, amount);
 
-                if (response.getStatus() >= 500) {
-                    JOptionPane.showMessageDialog(null, response.getMessage(), "Error " + response.getStatus(), JOptionPane.ERROR_MESSAGE);
-                } else if (response.getStatus() >= 400) {
-                    JOptionPane.showMessageDialog(null, response.getMessage(), "Error " + response.getStatus(), JOptionPane.WARNING_MESSAGE);
-                } else {
-                    JOptionPane.showMessageDialog(null, response.getMessage(), "Response Message", JOptionPane.INFORMATION_MESSAGE);
-                    SourceAccountTextField.setText("");
-                    DestinationAccountTextField.setText("");
-                    AmountTextField.setText("");
-                }
                 break;
             }
             case "Withdraw": {
-                Response response = BankController.withdrawTransaction(sourceAccountId, amount);
+                response = BankController.withdrawTransaction(sourceAccountId, amount);
 
-                if (response.getStatus() >= 500) {
-                    JOptionPane.showMessageDialog(null, response.getMessage(), "Error " + response.getStatus(), JOptionPane.ERROR_MESSAGE);
-                } else if (response.getStatus() >= 400) {
-                    JOptionPane.showMessageDialog(null, response.getMessage(), "Error " + response.getStatus(), JOptionPane.WARNING_MESSAGE);
-                } else {
-                    JOptionPane.showMessageDialog(null, response.getMessage(), "Response Message", JOptionPane.INFORMATION_MESSAGE);
-                    SourceAccountTextField.setText("");
-                    DestinationAccountTextField.setText("");
-                    AmountTextField.setText("");
-                }
                 break;
             }
             case "Transfer": {
-                Response response = BankController.transferTransaction(sourceAccountId, destinationAccountId, amount);
+                response = BankController.transferTransaction(sourceAccountId, destinationAccountId, amount);
 
-                if (response.getStatus() >= 500) {
-                    JOptionPane.showMessageDialog(null, response.getMessage(), "Error " + response.getStatus(), JOptionPane.ERROR_MESSAGE);
-                } else if (response.getStatus() >= 400) {
-                    JOptionPane.showMessageDialog(null, response.getMessage(), "Error " + response.getStatus(), JOptionPane.WARNING_MESSAGE);
-                } else {
-                    JOptionPane.showMessageDialog(null, response.getMessage(), "Response Message", JOptionPane.INFORMATION_MESSAGE);
-                    SourceAccountTextField.setText("");
-                    DestinationAccountTextField.setText("");
-                    AmountTextField.setText("");
-                }
                 break;
             }
             default: {
@@ -641,6 +610,16 @@ public class BankFrame extends javax.swing.JFrame {
                 break;
             }
         }
+        if (response.getStatus() >= 500) {
+            JOptionPane.showMessageDialog(null, response.getMessage(), "Error " + response.getStatus(), JOptionPane.ERROR_MESSAGE);
+        } else if (response.getStatus() >= 400) {
+            JOptionPane.showMessageDialog(null, response.getMessage(), "Error " + response.getStatus(), JOptionPane.WARNING_MESSAGE);
+        } else {
+            JOptionPane.showMessageDialog(null, response.getMessage(), "Response Message", JOptionPane.INFORMATION_MESSAGE);
+            SourceAccountTextField.setText("");
+            DestinationAccountTextField.setText("");
+            AmountTextField.setText("");
+        }
 
 
     }//GEN-LAST:event_ExecuteButtonActionPerformed
@@ -648,9 +627,10 @@ public class BankFrame extends javax.swing.JFrame {
     private void RefreshUsersButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RefreshUsersButtonActionPerformed
         // TODO add your handling code here:
 
-        StorageUsers storageUsers = StorageUsers.getInstance();
-        ArrayList<User> usersOfStorage = storageUsers.getUsers();
-        
+        Response response = BankController.refreshUsers();
+
+        ArrayList<User> usersOfStorage = (ArrayList<User>) response.getObject();
+
         DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
         model.setRowCount(0);
 
@@ -665,14 +645,15 @@ public class BankFrame extends javax.swing.JFrame {
 
     private void RefreshAccountsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RefreshAccountsButtonActionPerformed
         // TODO add your handling code here:
-        
-        StorageAccounts storageAccounts = StorageAccounts.getInstance();
-        ArrayList<Account> accountsOfStorage = storageAccounts.getAccounts();
-        
+
+        Response response = BankController.refreshAccounts();
+
+        ArrayList<Account> accountsOfStorage = (ArrayList<Account>) response.getObject();
+
         DefaultTableModel model = (DefaultTableModel) jTable2.getModel();
         model.setRowCount(0);
 
-       accountsOfStorage.sort((obj1, obj2) -> (obj1.getId().compareTo(obj2.getId())));
+        accountsOfStorage.sort((obj1, obj2) -> (obj1.getId().compareTo(obj2.getId())));
 
         for (Account account : accountsOfStorage) {
             model.addRow(new Object[]{account.getId(), account.getOwner().getId(), account.getBalance()});
@@ -681,10 +662,11 @@ public class BankFrame extends javax.swing.JFrame {
 
     private void RefreshTransactionsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RefreshTransactionsButtonActionPerformed
         // TODO add your handling code here:
-        
-        StorageTransactions storageTransactions = StorageTransactions.getInstance();
-        ArrayList<Transaction> transactionsOfStorage = storageTransactions.getTransactions();
-        
+
+        Response response = BankController.refreshTransactions();
+
+        ArrayList<Account> transactionsOfStorage = (ArrayList<Account>) response.getObject();
+
         DefaultTableModel model = (DefaultTableModel) jTable3.getModel();
         model.setRowCount(0);
 
