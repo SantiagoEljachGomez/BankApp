@@ -47,11 +47,8 @@ public class Main {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new BankFrame().setVisible(true);
-            }
+            } 
         });
-//        StorageUsers storageu = StorageUsers.getInstance();
-//        ArrayList<User> listau = storageu.getUsers();
-//        System.out.println("lista de users"+ listau);
-//        
+       
     }
 }

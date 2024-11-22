@@ -31,6 +31,11 @@ public class StorageTransactions {
         return instance;
     }
 
+    public ArrayList<Transaction> getTransactions() {
+        return transactions;
+    }
+
+    
     public boolean addTransactions(Transaction transaction) {
         this.transactions.add(transaction);
        

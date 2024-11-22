@@ -9,6 +9,9 @@ import bank.Transaction;
 import bank.User;
 import core.controllers.BankController;
 import core.controllers.utils.Response;
+import core.models.storages.StorageAccounts;
+import core.models.storages.StorageTransactions;
+import core.models.storages.StorageUsers;
 import java.util.ArrayList;
 import java.util.Collections;
 import javax.swing.JOptionPane;
@@ -644,36 +647,48 @@ public class BankFrame extends javax.swing.JFrame {
 
     private void RefreshUsersButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RefreshUsersButtonActionPerformed
         // TODO add your handling code here:
+
+        StorageUsers storageUsers = StorageUsers.getInstance();
+        ArrayList<User> usersOfStorage = storageUsers.getUsers();
+        
         DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
         model.setRowCount(0);
 
-        this.users.sort((obj1, obj2) -> (obj1.getId() - obj2.getId()));
+        usersOfStorage.sort((obj1, obj2) -> (obj1.getId() - obj2.getId()));
 
-        for (User user : this.users) {
+        for (User user : usersOfStorage) {
             model.addRow(new Object[]{user.getId(), user.getFirstname() + " " + user.getLastname(), user.getAge(), user.getNumAccounts()});
         }
-        
-        
+
+
     }//GEN-LAST:event_RefreshUsersButtonActionPerformed
 
     private void RefreshAccountsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RefreshAccountsButtonActionPerformed
         // TODO add your handling code here:
+        
+        StorageAccounts storageAccounts = StorageAccounts.getInstance();
+        ArrayList<Account> accountsOfStorage = storageAccounts.getAccounts();
+        
         DefaultTableModel model = (DefaultTableModel) jTable2.getModel();
         model.setRowCount(0);
 
-        this.accounts.sort((obj1, obj2) -> (obj1.getId().compareTo(obj2.getId())));
+       accountsOfStorage.sort((obj1, obj2) -> (obj1.getId().compareTo(obj2.getId())));
 
-        for (Account account : this.accounts) {
+        for (Account account : accountsOfStorage) {
             model.addRow(new Object[]{account.getId(), account.getOwner().getId(), account.getBalance()});
         }
     }//GEN-LAST:event_RefreshAccountsButtonActionPerformed
 
     private void RefreshTransactionsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RefreshTransactionsButtonActionPerformed
         // TODO add your handling code here:
+        
+        StorageTransactions storageTransactions = StorageTransactions.getInstance();
+        ArrayList<Transaction> transactionsOfStorage = storageTransactions.getTransactions();
+        
         DefaultTableModel model = (DefaultTableModel) jTable3.getModel();
         model.setRowCount(0);
 
-        ArrayList<Transaction> transactionsCopy = (ArrayList<Transaction>) this.transactions.clone();
+        ArrayList<Transaction> transactionsCopy = (ArrayList<Transaction>) transactionsOfStorage.clone();
         Collections.reverse(transactionsCopy);
 
         for (Transaction transaction : transactionsCopy) {

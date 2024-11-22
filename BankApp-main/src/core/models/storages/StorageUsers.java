@@ -30,12 +30,13 @@ public class StorageUsers {
     }
 
     public boolean addUsers(User user) {
-        
+
         for (User u : this.users) {
             if (u.getId() == user.getId()) {
                 return false;
             }
         }
+
         this.users.add(user);
         return true;
     }
@@ -48,7 +49,8 @@ public class StorageUsers {
         }
         return false;
     }
-     public User getUser(int id) {
+
+    public User getUser(int id) {
         for (User users : this.users) {
             if (users.getId() == id) {
                 return users;

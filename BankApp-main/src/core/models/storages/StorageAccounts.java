@@ -33,7 +33,7 @@ public class StorageAccounts {
 
     public boolean addAccounts(Account account) {
         for (Account a : this.accounts) {
-            if (a.getId() == account.getId()) {
+            if (a.getId().equals(account.getId())) {
                 return false;
             }
         }
@@ -52,9 +52,14 @@ public class StorageAccounts {
         return accountId;
     }
 
+    public ArrayList<Account> getAccounts() {
+        return accounts;
+    }
+
+    
     public boolean getAccounts(String id) {
         for (Account a : this.accounts) {
-            if (a.getId() == id) {
+            if (a.getId().equals(id)) {
                 return true;
             }
         }
@@ -63,7 +68,7 @@ public class StorageAccounts {
 
     public Account getAccount(String id) {
         for (Account a : this.accounts) {
-            if (a.getId() == id) {
+             if (a.getId().equals(id)) {
                 return a;
             }
         }
