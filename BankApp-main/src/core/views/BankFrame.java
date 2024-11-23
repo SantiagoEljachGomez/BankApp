@@ -4,12 +4,19 @@
  */
 package core.views;
 
-import bank.Account;
-import bank.Transaction;
-import bank.User;
-import core.controllers.BankController;
+
+import core.models.Transaction;
+import core.models.User;
+import core.controllers.CreateController;
+import core.controllers.DepositController;
+import core.controllers.RefreshAccountsController;
+import core.controllers.RefreshTransactionsController;
+import core.controllers.RefreshUsersController;
+import core.controllers.RegisterController;
+import core.controllers.TransferController;
+import core.controllers.WithdrawController;
 import core.controllers.utils.Response;
-import core.models.storages.StorageTransactions;
+import core.models.Account;
 import java.util.ArrayList;
 import java.util.Collections;
 import javax.swing.JOptionPane;
@@ -542,7 +549,7 @@ public class BankFrame extends javax.swing.JFrame {
         String age = AgeTextField.getText();
 
         // this.users.add(new User(id, firstname, lastname, age)); //PREGUNTAR PROFESOR SI AÑADIR EN VIEW O EN CONTROLLER32.
-        Response response = BankController.register(id, firstname, lastname, age);
+        Response response = RegisterController.register(id, firstname, lastname, age);
 
         if (response.getStatus() >= 500) {
             JOptionPane.showMessageDialog(null, response.getMessage(), "Error " + response.getStatus(), JOptionPane.ERROR_MESSAGE);
@@ -564,7 +571,7 @@ public class BankFrame extends javax.swing.JFrame {
         String userId = UserIdTextField.getText();
         String initialBalance = InitialBalanceTextField.getText();
 
-        Response response = BankController.create(userId, initialBalance);
+        Response response = CreateController.create(userId, initialBalance);
         if (response.getStatus() >= 500) {
             JOptionPane.showMessageDialog(null, response.getMessage(), "Error " + response.getStatus(), JOptionPane.ERROR_MESSAGE);
         } else if (response.getStatus() >= 400) {
@@ -589,17 +596,17 @@ public class BankFrame extends javax.swing.JFrame {
         Response response = null;
         switch (type) {
             case "Deposit": {
-                response = BankController.depositTransaction(destinationAccountId, amount);
+                response = DepositController.depositTransaction(destinationAccountId, amount);
 
                 break;
             }
             case "Withdraw": {
-                response = BankController.withdrawTransaction(sourceAccountId, amount);
+                response = WithdrawController.withdrawTransaction(sourceAccountId, amount);
 
                 break;
             }
             case "Transfer": {
-                response = BankController.transferTransaction(sourceAccountId, destinationAccountId, amount);
+                response = TransferController.transferTransaction(sourceAccountId, destinationAccountId, amount);
 
                 break;
             }
@@ -627,7 +634,7 @@ public class BankFrame extends javax.swing.JFrame {
     private void RefreshUsersButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RefreshUsersButtonActionPerformed
         // TODO add your handling code here:
 
-        Response response = BankController.refreshUsers();
+        Response response = RefreshUsersController.refreshUsers();
 
         ArrayList<User> usersOfStorage = (ArrayList<User>) response.getObject();
 
@@ -646,7 +653,7 @@ public class BankFrame extends javax.swing.JFrame {
     private void RefreshAccountsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RefreshAccountsButtonActionPerformed
         // TODO add your handling code here:
 
-        Response response = BankController.refreshAccounts();
+        Response response = RefreshAccountsController.refreshAccounts();
 
         ArrayList<Account> accountsOfStorage = (ArrayList<Account>) response.getObject();
 
@@ -663,7 +670,7 @@ public class BankFrame extends javax.swing.JFrame {
     private void RefreshTransactionsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RefreshTransactionsButtonActionPerformed
         // TODO add your handling code here:
 
-        Response response = BankController.refreshTransactions();
+        Response response = RefreshTransactionsController.refreshTransactions();
 
         ArrayList<Account> transactionsOfStorage = (ArrayList<Account>) response.getObject();
 

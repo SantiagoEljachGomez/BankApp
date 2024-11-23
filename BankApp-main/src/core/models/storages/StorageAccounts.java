@@ -4,8 +4,7 @@
  */
 package core.models.storages;
 
-import bank.Account;
-import bank.User;
+import core.models.Account;
 import java.util.ArrayList;
 import java.util.Random;
 

@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package bank;
+package core.models;
 
 import java.util.Random;
 
@@ -32,8 +32,7 @@ public class Account {
         this.owner.addAccount(this);
     }
 
-   
-
+//getters y setters cumplen con SINGLE RESPONSABILITY DE SOLID
     public String getId() {
         return id;
     }
@@ -44,18 +43,6 @@ public class Account {
 
     public double getBalance() {
         return balance;
-    }
-
-    public void deposit(double amount) {
-        this.balance += amount;
-    }
-
-    public boolean withdraw(double amount) {
-        if (amount > this.balance) {
-            return false;// no hay la cantidad disponible en el balance
-        }
-        this.balance -= amount;//hay disponibilidad, por eso se resta al balance
-        return true;
     }
 
     public void setBalance(double balance) {

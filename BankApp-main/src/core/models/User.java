@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package bank;
+package core.models;
 
 import java.util.ArrayList;
 
@@ -46,6 +46,7 @@ public class User {
         return this.accounts.size();
     }
     
+    //addAccount es la Single responsability de la clase User ya que los otros metodos son getters y setters y no cuentan como Responsabilities como tal
     public void addAccount(Account account) {
         this.accounts.add(account);
     }
