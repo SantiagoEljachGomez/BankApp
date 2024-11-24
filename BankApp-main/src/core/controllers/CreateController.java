@@ -9,6 +9,7 @@ import core.controllers.utils.Response;
 import core.controllers.utils.Status;
 import core.models.Account;
 import core.models.User;
+import core.models.storages.GenerateAccountId;
 import core.models.storages.StorageAccounts;
 import core.models.storages.StorageUsers;
 
@@ -53,6 +54,7 @@ public class CreateController {
             }
 
             StorageAccounts storageAccounts = StorageAccounts.getInstance();
+            
             User user = storageUsers.getUser(userIdInt);
             if (!storageAccounts.addAccounts(new Account(storageAccounts.generateAccountId(), user, initialBalanceDouble))) {
                 return new Response("Error, Account not successfully created", Status.BAD_REQUEST);

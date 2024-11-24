@@ -15,13 +15,16 @@ import java.util.Random;
 public class StorageAccounts {
 
     private static StorageAccounts instance;
+    private GenerateAccountId generateId;
 
     private ArrayList<Account> accounts;
 
     public StorageAccounts() {
-        this.accounts = new ArrayList<>();
-        
+        this.generateId = new GenerateAccountId ();
+        this.accounts = new ArrayList<> ();
     }
+
+    
 
     public static StorageAccounts getInstance() {
         if (instance == null) {
@@ -41,14 +44,7 @@ public class StorageAccounts {
     }
 
     public String generateAccountId() {
-        Random random = new Random();
-
-        int random1 = random.nextInt(1000);
-        int random2 = random.nextInt(1000000);
-        int random3 = random.nextInt(100);
-
-        String accountId = String.format("%03d", random1) + "-" + String.format("%06d", random2) + "-" + String.format("%02d", random3);
-        return accountId;
+        return generateId.generateAccountId();
     }
 
     public ArrayList<Account> getAccounts() {
